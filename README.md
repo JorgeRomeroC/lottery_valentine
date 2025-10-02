@@ -1,4 +1,4 @@
-# 🌹 Sorteo San Valentín - Sistema de Gestión de Concursos
+#  Sorteo San Valentín - Sistema de Gestión de Concursos
 
 
 ## 👨‍💻 Desarrollado por
@@ -15,6 +15,33 @@ Programador y Desarrollador Web especializado en Django, Flask y Vue.js, PHP, La
 # 📖 Documentación del Proyecto Lottery Valentine
 
 ## Índice
+
+- [👨‍💻 Desarrollado por](#desarrollado-por)
+- [📋 Descripción del Proyecto](#descripción-del-proyecto)
+- [🎯 Objetivos del Sistema](#objetivos-del-sistema)
+- [🎯 Decisiones técnicas](#decisiones-técnicas)
+- [🏗️ Arquitectura del Sistema](#arquitectura-del-sistema)
+- [✨ Funcionalidades Principales](#funcionalidades-principales)
+- [🔒 Validaciones Implementadas](#validaciones-implementadas)
+- [📁 Estructura del Proyecto](#estructura-del-proyecto)
+- [🚀 Instalación y Configuración](#instalación-y-configuración)
+- [🚀 Librerías Backend (Python/Django)](#librerías-backend-pythondjango)
+- [🚀 Librerías Frontend (Node.js/Vue.js)](#librerías-frontend-nodejsvuejs)
+- [📦 Instalación del Backend](#instalación-del-backend)
+- [🎨 Instalación del Frontend](#instalación-del-frontend)
+- [🔗 Endpoints de la API](#endpoints-de-la-api)
+- [🧪 Flujo de Prueba Completo](#flujo-de-prueba-completo)
+- [🛠️ Comandos Útiles](#comandos-útiles)
+- [🐛 Solución de Problemas Comunes](#solución-de-problemas-comunes)
+- [📊 Modelos de Datos](#modelos-de-datos)
+- [🔐 Seguridad](#seguridad)
+- [📝 Notas Importantes](#notas-importantes)
+- [📄 Licencia](#licencia)
+- [🎉 Proyecto Completado](#proyecto-completado)
+- 📎 Archivos relacionados
+  - [CARTURAS-DE-PROCESOS.md](CARTURAS-DE-PROCESOS.md)
+  - [LISTADO-ENDPOINTS.md](LISTADO-ENDPOINTS.md)
+
 ---
 
 ## 📋 Descripción del Proyecto
