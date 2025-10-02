@@ -1,6 +1,5 @@
 <template>
   <div class="container-fluid py-4">
-    <!-- Navbar de administrador -->
     <nav class="navbar navbar-dark bg-dark rounded mb-4">
       <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Panel de Administración</span>
@@ -20,7 +19,6 @@
         <h4 class="mb-0">Lista de Participantes</h4>
       </div>
       <div class="card-body">
-        <!-- Barra de búsqueda -->
         <div class="row mb-3">
           <div class="col-md-6">
             <input
@@ -35,7 +33,7 @@
             <select class="form-select" v-model="filterStatus" @change="filterParticipants">
               <option value="all">Todos</option>
               <option value="verified">Verificados</option>
-              <option value="not_verified">No verificados</option>
+              <option value="pending">Pendientes</option>
             </select>
           </div>
           <div class="col-md-3 text-end">
@@ -45,63 +43,51 @@
           </div>
         </div>
 
-        <!-- Estado de carga -->
         <div v-if="loading" class="text-center py-5">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Cargando...</span>
           </div>
         </div>
 
-        <!-- Mensaje de error -->
         <div v-if="error" class="alert alert-danger">
           {{ error }}
         </div>
 
-        <!-- Tabla de participantes -->
         <div v-if="!loading && !error" class="table-responsive">
           <table class="table table-hover">
             <thead class="table-light">
               <tr>
-                <th>ID</th>
                 <th>Nombre Completo</th>
                 <th>Email</th>
                 <th>Teléfono</th>
                 <th>Estado</th>
-                <th>Ganador</th>
                 <th>Fecha de Registro</th>
+                <th>Fecha de Verificación</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="participant in filteredParticipants" :key="participant.id">
-                <td>{{ participant.id }}</td>
                 <td>{{ participant.full_name }}</td>
                 <td>{{ participant.email }}</td>
                 <td>{{ participant.phone }}</td>
                 <td>
                   <span
                     class="badge"
-                    :class="participant.is_verified ? 'bg-success' : 'bg-warning text-dark'"
+                    :class="participant.status === 'verified' ? 'bg-success' : 'bg-warning text-dark'"
                   >
-                    {{ participant.is_verified ? '✓ Verificado' : ' Pendiente' }}
+                    {{ participant.status === 'verified' ? '✓ Verificado' : '⏳ Pendiente' }}
                   </span>
                 </td>
-                <td>
-                  <span v-if="participant.is_winner" class="badge bg-danger">
-                     GANADOR
-                  </span>
-                  <span v-else class="text-muted">-</span>
-                </td>
-                <td>{{ formatDate(participant.created_at) }}</td>
+                <td>{{ formatDate(participant.registered_at) }}</td>
+                <td>{{ participant.verified_at ? formatDate(participant.verified_at) : '-' }}</td>
               </tr>
             </tbody>
           </table>
 
-          <!-- Sin resultados -->
           <div v-if="filteredParticipants.length === 0" class="text-center py-4 text-muted">
             No se encontraron participantes
           </div>
 
-          <!-- Total de participantes -->
           <div class="mt-3 text-muted">
             Total: {{ filteredParticipants.length }} participante(s)
           </div>
@@ -128,15 +114,14 @@ const error = ref('')
 const searchQuery = ref('')
 const filterStatus = ref('all')
 
-// Cargar participantes
 const loadParticipants = async () => {
   loading.value = true
   error.value = ''
 
   try {
-    const response = await apiClient.get('/admin/participants/')
-    participants.value = response.data
-    filteredParticipants.value = response.data
+    const response = await apiClient.get('/contest/participants/')
+    participants.value = response.data.results || response.data
+    filteredParticipants.value = participants.value
   } catch (err: any) {
     error.value = err.response?.data?.detail || 'Error al cargar participantes'
   } finally {
@@ -144,11 +129,9 @@ const loadParticipants = async () => {
   }
 }
 
-// Filtrar participantes
 const filterParticipants = () => {
   let filtered = [...participants.value]
 
-  // Filtrar por búsqueda
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     filtered = filtered.filter(
@@ -158,17 +141,15 @@ const filterParticipants = () => {
     )
   }
 
-  // Filtrar por estado
   if (filterStatus.value === 'verified') {
-    filtered = filtered.filter((p) => p.is_verified)
-  } else if (filterStatus.value === 'not_verified') {
-    filtered = filtered.filter((p) => !p.is_verified)
+    filtered = filtered.filter((p) => p.status === 'verified')
+  } else if (filterStatus.value === 'pending') {
+    filtered = filtered.filter((p) => p.status === 'pending')
   }
 
   filteredParticipants.value = filtered
 }
 
-// Formatear fecha
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString)
   return date.toLocaleString('es-CL', {
@@ -180,7 +161,6 @@ const formatDate = (dateString: string): string => {
   })
 }
 
-// Cerrar sesión
 const handleLogout = () => {
   authStore.logout()
   router.push({ name: 'admin-login' })

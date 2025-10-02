@@ -11,7 +11,7 @@ def send_verification_email(self, user_email, user_name, verification_token, fro
     Tarea asíncrona para enviar email de verificación
     """
     try:
-        verification_link = f"{frontend_url}/verify-email?token={verification_token}"
+        verification_link = f"{frontend_url}/verify-email/{verification_token}"
 
         subject = '¡Verifica tu correo para participar en el sorteo de San Valentín!'
 

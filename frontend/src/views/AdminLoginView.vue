@@ -11,20 +11,18 @@
               Acceso exclusivo para personal del hotel
             </p>
 
-            <!-- Mensaje de error -->
             <div v-if="error" class="alert alert-danger" role="alert">
               {{ error }}
             </div>
 
-            <!-- Formulario de login -->
             <form @submit.prevent="handleLogin">
               <div class="mb-3">
-                <label for="username" class="form-label">Usuario</label>
+                <label for="email" class="form-label">Email</label>
                 <input
-                  type="text"
+                  type="email"
                   class="form-control"
-                  id="username"
-                  v-model="credentials.username"
+                  id="email"
+                  v-model="credentials.email"
                   required
                   :disabled="loading"
                 />
@@ -74,7 +72,7 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const credentials = ref<AdminLoginData>({
-  username: '',
+  email: '',
   password: ''
 })
 

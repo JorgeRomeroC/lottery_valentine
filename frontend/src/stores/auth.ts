@@ -4,14 +4,13 @@ import apiClient from '@/api/axios'
 import type { AdminLoginData, LoginResponse } from '@/types'
 
 export const useAuthStore = defineStore('auth', () => {
-  // Estado
   const token = ref<string | null>(localStorage.getItem('admin_token'))
   const isAuthenticated = ref<boolean>(!!token.value)
 
   // Login del administrador
   const login = async (credentials: AdminLoginData): Promise<void> => {
     try {
-      const response = await apiClient.post<LoginResponse>('/admin/login/', credentials)
+      const response = await apiClient.post<LoginResponse>('/users/admin/login/', credentials)
       token.value = response.data.access
       isAuthenticated.value = true
       localStorage.setItem('admin_token', response.data.access)
@@ -20,14 +19,12 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  // Logout
   const logout = (): void => {
     token.value = null
     isAuthenticated.value = false
     localStorage.removeItem('admin_token')
   }
 
-  // Verificar si hay sesión activa
   const checkAuth = (): boolean => {
     const storedToken = localStorage.getItem('admin_token')
     if (storedToken) {

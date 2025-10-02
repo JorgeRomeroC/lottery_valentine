@@ -8,7 +8,6 @@
               Verificación de Cuenta
             </h2>
 
-            <!-- Estado: Verificando -->
             <div v-if="verifying" class="text-center">
               <div class="spinner-border text-danger mb-3" role="status">
                 <span class="visually-hidden">Verificando...</span>
@@ -16,12 +15,10 @@
               <p>Verificando tu correo electrónico...</p>
             </div>
 
-            <!-- Estado: Error de verificación -->
             <div v-if="verificationError" class="alert alert-danger">
               {{ verificationError }}
             </div>
 
-            <!-- Estado: Verificado - Formulario de contraseña -->
             <div v-if="verified && !passwordSet">
               <div class="alert alert-success mb-4">
                  Tu correo ha sido verificado correctamente
@@ -76,7 +73,6 @@
               </form>
             </div>
 
-            <!-- Estado: Contraseña creada exitosamente -->
             <div v-if="passwordSet" class="text-center">
               <div class="alert alert-success mb-4">
                 <h4 class="alert-heading">🎉 ¡Felicitaciones!</h4>
@@ -100,7 +96,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import apiClient from '@/api/axios'
-import type { SetPasswordData } from '@/types'
+import type { SetPasswordData, VerifyEmailData } from '@/types'
 
 const route = useRoute()
 const token = route.params.token as string
@@ -118,10 +114,10 @@ const passwordData = ref<SetPasswordData>({
   password_confirm: ''
 })
 
-// Verificar el email al cargar el componente
 const verifyEmail = async () => {
   try {
-    await apiClient.get(`/participants/verify-email/${token}/`)
+    const verifyData: VerifyEmailData = { token }
+    await apiClient.post('/users/verify-email/', verifyData)
     verified.value = true
     verificationError.value = ''
   } catch (err: any) {
@@ -132,7 +128,6 @@ const verifyEmail = async () => {
   }
 }
 
-// Crear contraseña
 const handleSetPassword = async () => {
   if (passwordData.value.password !== passwordData.value.password_confirm) {
     error.value = 'Las contraseñas no coinciden'
@@ -143,7 +138,7 @@ const handleSetPassword = async () => {
   error.value = ''
 
   try {
-    await apiClient.post('/participants/set-password/', passwordData.value)
+    await apiClient.post('/users/set-password/', passwordData.value)
     passwordSet.value = true
   } catch (err: any) {
     error.value = err.response?.data?.error || 'Error al crear la contraseña'

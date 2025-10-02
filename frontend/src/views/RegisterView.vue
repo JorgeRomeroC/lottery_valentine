@@ -11,18 +11,15 @@
               ¡Gana 2 noches todo pagado para una pareja en un hotel!
             </p>
 
-            <!-- Mensaje de éxito -->
             <div v-if="success" class="alert alert-success" role="alert">
               <strong>¡Gracias por registrarte!</strong><br>
               Revisa tu correo para verificar tu cuenta.
             </div>
 
-            <!-- Mensaje de error -->
             <div v-if="error" class="alert alert-danger" role="alert">
               {{ error }}
             </div>
 
-            <!-- Formulario de inscripción -->
             <form v-if="!success" @submit.prevent="handleSubmit">
               <div class="mb-3">
                 <label for="full_name" class="form-label">Nombre Completo *</label>
@@ -91,7 +88,8 @@ import type { RegisterData } from '@/types'
 const formData = ref<RegisterData>({
   full_name: '',
   email: '',
-  phone: ''
+  phone: '',
+  frontend_url: 'http://localhost:5173'
 })
 
 const loading = ref(false)
@@ -103,7 +101,7 @@ const handleSubmit = async () => {
   error.value = ''
 
   try {
-    await apiClient.post('/participants/register/', formData.value)
+    const response = await apiClient.post('/users/register/', formData.value)
     success.value = true
   } catch (err: any) {
     if (err.response?.data?.error) {
@@ -122,7 +120,8 @@ const resetForm = () => {
   formData.value = {
     full_name: '',
     email: '',
-    phone: ''
+    phone: '',
+    frontend_url: 'http://localhost:5173'
   }
   success.value = false
   error.value = ''
