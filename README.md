@@ -29,6 +29,16 @@ Sistema Full Stack para gestionar un sorteo de San Valentín donde los participa
 6. Notificar automáticamente a los ganadores por email
 7. Proporcionar panel administrativo para gestionar el concurso
 
+## 🎯 Decisiones técnicas
+
+1. Django + DRF: se eligió por su robustez en la construcción de APIs y manejo claro de serializadores, validaciones y autenticación.
+2. Vue 3 + TypeScript: permite un frontend modular, reactivo.
+3. TypeScript: mejora la calidad del código y facilita la detección de errores en tiempo de compilación, añade algo de complicidad al proyecto, pero es mejor para un desarrollo en donde es necesario no perder tiempo en pequeños errores y con tiempo limtado.
+3. Celery + Redis: usados para manejar tareas asíncronas como el envío de correos electrónicos de verificación y notificación de ganadores, evitando bloquear el flujo principal de la aplicación.
+4. Mailtrap: elegido como servicio de correo para pruebas, ya que permite interceptar y visualizar emails sin necesidad de un servidor SMTP real.
+5. Arquitectura separada (backend/frontend): facilita el escalado independiente y el despliegue en contenedores o servicios separados.
+
+
 ---
 
 ## 🏗️ Arquitectura del Sistema
