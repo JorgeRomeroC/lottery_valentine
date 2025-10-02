@@ -1,6 +1,19 @@
 # 🌹 Sorteo San Valentín - Sistema de Gestión de Concursos
 
+
+## 👨‍💻 Desarrollado por
+
+**Jorge Romero Contreras**  
+Programador y Desarrollador Web especializado en Django, Flask y Vue.js, PHP, Laravel
+
+🌐 **Web:** [deverom.com](https://deverom.com)  
+💼 **LinkedIn:** [https://www.linkedin.com/in/jorgeromerocontreras/)  
+📧 **Email:** contacto@deverom.com
+
+---
+
 ## 📋 Descripción del Proyecto
+
 
 Sistema Full Stack para gestionar un sorteo de San Valentín donde los participantes pueden inscribirse para ganar una estadía de 2 noches todo pagado para una pareja en un hotel. El sistema incluye verificación de email, panel de administración y selección aleatoria de ganadores con notificaciones automáticas.
 
@@ -695,15 +708,6 @@ user.save()
 5. **PostgreSQL:** Se recomienda para producción. SQLite solo para desarrollo
 
 6. **Frontend URL:** Al registrar usuarios, el `frontend_url` debe coincidir con donde corre el frontend
-
----
-
-## 👨‍💻 Desarrollado por
-
-**Jorge** - Programador y Desarrollador Web  
-- PHP, Laravel, WordPress
-- Django, Flask, Python
-- Vue.js, TypeScript
 
 ---
 
