@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from .models import User
+import re
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -15,10 +16,23 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Este correo electrónico ya está registrado.")
         return value.lower()
 
+    def validate_full_name(self, value):
+        if len(value) < 3:
+            raise serializers.ValidationError("El nombre debe tener al menos 3 caracteres")
+        if len(value) > 100:
+            raise serializers.ValidationError("El nombre es demasiado largo")
+        if not re.match(r'^[a-záéíóúñA-ZÁÉÍÓÚÑ\s]+$', value):
+            raise serializers.ValidationError("El nombre solo puede contener letras")
+        return value
+
     def validate_phone(self, value):
-        # Validación básica de teléfono
-        if not value.replace('+', '').replace('-', '').replace(' ', '').isdigit():
-            raise serializers.ValidationError("El teléfono solo debe contener números.")
+        # Validar formatos chilenos:
+        # Móvil: +569XXXXXXXX (10 dígitos totales)
+        # Fijo: +562XXXXXXXX (10 dígitos totales)
+        if not re.match(r'^\+56[2-9]\d{8}$', value):
+            raise serializers.ValidationError(
+                "El teléfono debe tener formato chileno válido: +56912345678"
+            )
         return value
 
     def create(self, validated_data):

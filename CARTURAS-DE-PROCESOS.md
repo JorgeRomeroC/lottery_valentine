@@ -158,3 +158,15 @@ Este documento contiene las capturas de los procesos realizados en el **Backend*
 
 ![18-token-expirado.png](capturas-de-procesos/frontend/18-token-expirado.png)
 
+### 19-validacion-tiempo-real.png
+
+![19-validacion-tiempo-real.png](capturas-de-procesos/frontend/19-validacion-tiempo-real.png)
+
+### 20-coincidencias-password.png
+
+![20-coincidencias-password.png](capturas-de-procesos/frontend/20-coincidencias-password.png)
+
+### 21-validar-corroe-existente.png
+
+![21-validar-corroe-existente.png](capturas-de-procesos/frontend/21-validar-corroe-existente.png)
+

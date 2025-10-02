@@ -34,13 +34,18 @@
                   <input
                     type="password"
                     class="form-control"
+                    :class="{ 'is-invalid': errors.password }"
                     id="password"
                     v-model="passwordData.password"
+                    @blur="validatePassword"
+                    @input="errors.password = ''"
                     required
-                    minlength="8"
                     :disabled="loading"
                   />
                   <small class="text-muted">Mínimo 8 caracteres</small>
+                  <div v-if="errors.password" class="invalid-feedback">
+                    {{ errors.password }}
+                  </div>
                 </div>
 
                 <div class="mb-3">
@@ -50,12 +55,17 @@
                   <input
                     type="password"
                     class="form-control"
+                    :class="{ 'is-invalid': errors.password_confirm }"
                     id="password_confirm"
                     v-model="passwordData.password_confirm"
+                    @blur="validatePasswordConfirm"
+                    @input="errors.password_confirm = ''"
                     required
-                    minlength="8"
                     :disabled="loading"
                   />
+                  <div v-if="errors.password_confirm" class="invalid-feedback">
+                    {{ errors.password_confirm }}
+                  </div>
                 </div>
 
                 <div v-if="error" class="alert alert-danger">
@@ -65,7 +75,7 @@
                 <button
                   type="submit"
                   class="btn btn-danger w-100"
-                  :disabled="loading"
+                  :disabled="loading || hasErrors"
                 >
                   <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>
                   {{ loading ? 'Guardando...' : 'Crear Contraseña' }}
@@ -93,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import apiClient from '@/api/axios'
 import type { SetPasswordData, VerifyEmailData } from '@/types'
@@ -114,6 +124,72 @@ const passwordData = ref<SetPasswordData>({
   password_confirm: ''
 })
 
+const errors = ref({
+  password: '',
+  password_confirm: ''
+})
+
+// Validación de contraseña
+const validatePassword = () => {
+  const password = passwordData.value.password
+
+  if (!password) {
+    errors.value.password = 'La contraseña es requerida'
+    return false
+  }
+
+  if (password.length < 8) {
+    errors.value.password = 'La contraseña debe tener al menos 8 caracteres'
+    return false
+  }
+
+  if (password.length > 128) {
+    errors.value.password = 'La contraseña es demasiado larga'
+    return false
+  }
+
+  // Validar que tenga al menos una letra y un número (opcional pero recomendado)
+  const hasLetter = /[a-zA-Z]/.test(password)
+  const hasNumber = /[0-9]/.test(password)
+
+  if (!hasLetter || !hasNumber) {
+    errors.value.password = 'La contraseña debe contener letras y números'
+    return false
+  }
+
+  errors.value.password = ''
+  return true
+}
+
+// Validación de confirmación de contraseña
+const validatePasswordConfirm = () => {
+  const password = passwordData.value.password
+  const passwordConfirm = passwordData.value.password_confirm
+
+  if (!passwordConfirm) {
+    errors.value.password_confirm = 'Debes confirmar la contraseña'
+    return false
+  }
+
+  if (password !== passwordConfirm) {
+    errors.value.password_confirm = 'Las contraseñas no coinciden'
+    return false
+  }
+
+  errors.value.password_confirm = ''
+  return true
+}
+
+const hasErrors = computed(() => {
+  return !!(errors.value.password || errors.value.password_confirm)
+})
+
+const validateForm = (): boolean => {
+  const passwordValid = validatePassword()
+  const confirmValid = validatePasswordConfirm()
+  return passwordValid && confirmValid
+}
+
 const verifyEmail = async () => {
   try {
     const verifyData: VerifyEmailData = { token }
@@ -129,8 +205,8 @@ const verifyEmail = async () => {
 }
 
 const handleSetPassword = async () => {
-  if (passwordData.value.password !== passwordData.value.password_confirm) {
-    error.value = 'Las contraseñas no coinciden'
+  if (!validateForm()) {
+    error.value = 'Por favor corrige los errores en el formulario'
     return
   }
 
@@ -156,5 +232,16 @@ onMounted(() => {
 .card {
   border: none;
   border-radius: 15px;
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  display: block;
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 </style>
