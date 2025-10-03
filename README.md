@@ -34,6 +34,7 @@ Programador y Desarrollador Web especializado en Django, Flask y Vue.js, PHP, La
 - [🛠️ Comandos Útiles](#comandos-útiles)
 - [🐛 Solución de Problemas Comunes](#solución-de-problemas-comunes)
 - [📊 Modelos de Datos](#modelos-de-datos)
+- [🧪 Tests Unitarios](#tests-unitarios)
 - [🔐 Seguridad](#seguridad)
 - [📝 Notas Importantes](#notas-importantes)
 - [📄 Licencia](#licencia)
@@ -737,6 +738,38 @@ user.save()
 
 ---
 
+---
+
+## 🧪 Tests Unitarios
+
+El proyecto incluye **31 tests unitarios** que cubren los módulos principales del sistema.
+
+### Cobertura de Tests
+
+**apps/users (19 tests):**
+- Tests de modelos: creación de usuarios, validación de email único, normalización
+- Tests de serializers: validaciones de nombre, teléfono, email, contraseñas
+- Tests de endpoints: registro, verificación, login admin
+
+**apps/contest (12 tests):**
+- Tests de modelos: participantes, ganadores
+- Tests de endpoints: lista de participantes, sorteo, último ganador
+- Tests de autenticación en rutas protegidas
+
+### Ejecutar Tests
+```bash
+# Todos los tests
+python manage.py test
+
+# Solo tests de users
+python manage.py test apps.users
+
+# Solo tests de contest
+python manage.py test apps.contest
+
+# Con más detalle
+python manage.py test --verbosity=2
+
 ## 📝 Notas Importantes
 
 1. **Mailtrap:** En desarrollo, todos los emails se capturan en Mailtrap. Para producción, cambiar a servicio real (SendGrid, AWS SES, etc.)
@@ -764,6 +797,7 @@ Este proyecto fue desarrollado como prueba técnica para CTS Turismo.
 El sistema está totalmente funcional con todas las características solicitadas:
 - ✅ Registro e inscripción
 - ✅ Verificación por email
+- ✅ Test Unitario por modulo users, contest y todos ejecutados
 - ✅ Panel administrativo
 - ✅ Sorteo aleatorio de ganadores
 - ✅ Notificaciones automáticas
