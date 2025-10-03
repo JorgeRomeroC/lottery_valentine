@@ -244,7 +244,9 @@ lottery_valentine/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+# https
+git clone https://github.com/JorgeRomeroC/lottery_valentine.git
+
 cd lottery_valentine
 ```
 
