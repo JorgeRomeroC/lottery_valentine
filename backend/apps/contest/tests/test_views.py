@@ -183,3 +183,45 @@ class LatestWinnerEndpointTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('participant', response.data)
+
+    class ParticipantStatsEndpointTests(TestCase):
+        """Tests para el endpoint de estadísticas"""
+
+        def setUp(self):
+            self.client = APIClient()
+
+            # Crear admin y login
+            self.admin = User.objects.create_superuser(
+                email='admin@example.com',
+                full_name='Admin',
+                phone='+56912345678',
+                password='admin123'
+            )
+
+            login_response = self.client.post('/api/users/admin/login/', {
+                'email': 'admin@example.com',
+                'password': 'admin123'
+            }, format='json')
+
+            token = login_response.data['access']
+            self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+
+            # Crear participantes
+            for i in range(10):
+                user = User.objects.create_user(
+                    email=f'user{i}@example.com',
+                    full_name=f'User {i}',
+                    phone=f'+5691234567{i}',
+                    password='password123'
+                )
+                status_val = 'verified' if i < 7 else 'pending'
+                Participant.objects.create(user=user, status=status_val)
+
+        def test_get_stats_successfully(self):
+            """Test: Obtener estadísticas exitosamente"""
+            response = self.client.get('/api/contest/participants/stats/')
+
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertEqual(response.data['total_participants'], 10)
+            self.assertEqual(response.data['verified_participants'], 7)
+            self.assertEqual(response.data['pending_participants'], 3)

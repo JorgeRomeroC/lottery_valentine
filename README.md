@@ -742,19 +742,21 @@ user.save()
 
 ## 🧪 Tests Unitarios
 
-El proyecto incluye **31 tests unitarios** que cubren los módulos principales del sistema.
+El proyecto incluye **38 tests unitarios** que cubren los módulos principales del sistema con una cobertura del **87%**.
 
 ### Cobertura de Tests
 
-**apps/users (19 tests):**
+**apps/users (26 tests):**
 - Tests de modelos: creación de usuarios, validación de email único, normalización
 - Tests de serializers: validaciones de nombre, teléfono, email, contraseñas
-- Tests de endpoints: registro, verificación, login admin
+- Tests de endpoints: registro, verificación, login admin, establecer contraseña
+- Tests de tareas: envío de emails de verificación
 
 **apps/contest (12 tests):**
 - Tests de modelos: participantes, ganadores
-- Tests de endpoints: lista de participantes, sorteo, último ganador
+- Tests de endpoints: lista de participantes, sorteo, último ganador, estadísticas
 - Tests de autenticación en rutas protegidas
+- Tests de tareas: emails de confirmación y notificación de ganadores
 
 ### Ejecutar Tests
 ```bash
@@ -769,6 +771,46 @@ python manage.py test apps.contest
 
 # Con más detalle
 python manage.py test --verbosity=2
+
+```
+
+### Cobertura Actual
+
+El proyecto tiene una cobertura de código del **87%** (787/787 statements, 101 missed).
+
+**El reporte HTML muestra:**
+- Resumen general de cobertura por módulo
+- Líneas específicas cubiertas y no cubiertas
+- Navegación interactiva por archivos
+- Estadísticas detalladas por archivo
+
+### Generar Reporte de Cobertura
+```bash
+# Ejecutar tests con cobertura
+coverage run --source='apps' manage.py test
+
+# Ver reporte en la terminal
+coverage report
+
+# Generar reporte HTML interactivo
+coverage html
+
+# Abrir el reporte en el navegador
+# En macOS:
+open htmlcov/index.html
+
+# En Linux:
+xdg-open htmlcov/index.html
+
+# En Windows:
+start htmlcov/index.html
+
+# O simplemente navega a: file:///ruta/al/proyecto/backend/htmlcov/index.html
+
+```
+
+### Generar Reporte de Cobertura
+---
 
 ## 📝 Notas Importantes
 

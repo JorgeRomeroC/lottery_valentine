@@ -108,3 +108,90 @@ class AdminLoginEndpointTests(TestCase):
         response = self.client.post('/api/users/admin/login/', data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    class VerifyEmailEndpointTests(TestCase):
+        """Tests para el endpoint de verificación de email"""
+
+        def setUp(self):
+            self.client = APIClient()
+            self.user = User.objects.create_user(
+                email='test@example.com',
+                full_name='Test User',
+                phone='+56912345678',
+                password='password123'
+            )
+
+        def test_verify_email_with_valid_token(self):
+            """Test: Verificación con token válido"""
+            data = {'token': str(self.user.verification_token)}
+
+            response = self.client.post('/api/users/verify-email/', data, format='json')
+
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertIn('message', response.data)
+
+        def test_verify_email_with_invalid_token(self):
+            """Test: Verificación con token inválido"""
+            data = {'token': 'invalid-token-123'}
+
+            response = self.client.post('/api/users/verify-email/', data, format='json')
+
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        def test_verify_email_without_token(self):
+            """Test: Verificación sin token"""
+            response = self.client.post('/api/users/verify-email/', {}, format='json')
+
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    class SetPasswordEndpointTests(TestCase):
+        """Tests para el endpoint de establecer contraseña"""
+
+        def setUp(self):
+            self.client = APIClient()
+            self.user = User.objects.create_user(
+                email='test@example.com',
+                full_name='Test User',
+                phone='+56912345678',
+                password='oldpassword123'
+            )
+
+        def test_set_password_successfully(self):
+            """Test: Establecer contraseña exitosamente"""
+            data = {
+                'token': str(self.user.verification_token),
+                'password': 'NewPassword123',
+                'password_confirm': 'NewPassword123'
+            }
+
+            response = self.client.post('/api/users/set-password/', data, format='json')
+
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+            # Verificar que el usuario fue verificado
+            self.user.refresh_from_db()
+            self.assertTrue(self.user.is_verified)
+            self.assertTrue(self.user.check_password('NewPassword123'))
+
+        def test_set_password_with_mismatched_passwords(self):
+            """Test: Contraseñas no coinciden"""
+            data = {
+                'token': str(self.user.verification_token),
+                'password': 'Password123',
+                'password_confirm': 'DifferentPassword123'
+            }
+
+            response = self.client.post('/api/users/set-password/', data, format='json')
+
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        def test_set_password_without_token(self):
+            """Test: Establecer contraseña sin token"""
+            data = {
+                'password': 'Password123',
+                'password_confirm': 'Password123'
+            }
+
+            response = self.client.post('/api/users/set-password/', data, format='json')
+
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
