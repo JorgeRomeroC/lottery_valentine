@@ -34,7 +34,7 @@ Programador y Desarrollador Web especializado en Django, Flask y Vue.js, PHP, La
 - [🛠️ Comandos Útiles](#comandos-útiles)
 - [🐛 Solución de Problemas Comunes](#solución-de-problemas-comunes)
 - [📊 Modelos de Datos](#modelos-de-datos)
-- [🧪 Tests Unitarios](#tests-unitarios)
+- [🧪 Tests Automatizados](#tests-automatizados)
 - [🔐 Seguridad](#seguridad)
 - [📝 Notas Importantes](#notas-importantes)
 - [📄 Licencia](#licencia)
@@ -742,9 +742,9 @@ user.save()
 
 ---
 
-## 🧪 Tests Unitarios
+## 🧪 Tests Automatizados
 
-El proyecto incluye **38 tests unitarios** que cubren los módulos principales del sistema con una cobertura del **87%**.
+El proyecto incluye **38 tests automatizados** que cubren los módulos principales del sistema con una cobertura del **87%**.
 
 ### Cobertura de Tests
 
