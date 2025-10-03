@@ -78,9 +78,25 @@ Este documento contiene las capturas de los procesos realizados en el **Backend*
 
 ![16-refrescar-jwt-token.png](capturas-de-procesos/backend/16-refrescar-jwt-token.png)
 
-### backend-terminales.png
+### 17-backend-terminales.png
 
-![backend-terminales.png](capturas-de-procesos/backend/backend-terminales.png)
+![17-backend-terminales.png](capturas-de-procesos/backend/17-backend-terminales.png)
+
+### 18-tests-exitosos-users.png
+
+![18-tests-exitosos-users.png](capturas-de-procesos/backend/18-tests-exitosos-users.png)
+
+### 19-test-exitosos-contest.png
+
+![19-test-exitosos-contest.png](capturas-de-procesos/backend/19-test-exitosos-contest.png)
+
+### 20-todos-tests-exitosos.png
+
+![20-todos-tests-exitosos.png](capturas-de-procesos/backend/20-todos-tests-exitosos.png)
+
+### 21-reportes_covertura.png
+
+![21-reportes_covertura.png](capturas-de-procesos/backend/21-reportes_covertura.png)
 
 ---
 
@@ -106,9 +122,9 @@ Este documento contiene las capturas de los procesos realizados en el **Backend*
 
 ![5-verificacion-email-registrado.png](capturas-de-procesos/frontend/5-verificacion-email-registrado.png)
 
-### 6-ingresar-contraseña.png
+### 6-ingresar-contrasena.png
 
-![6-ingresar-contraseña.png](capturas-de-procesos/frontend/6-ingresar-contraseña.png)
+![6-ingresar-contrasena.png](capturas-de-procesos/frontend/6-ingresar-contrasena.png)
 
 ### 7-envio-email-para-activar.png
 
