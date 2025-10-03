@@ -41,7 +41,8 @@ Programador y Desarrollador Web especializado en Django, Flask y Vue.js, PHP, La
 - [🎉 Proyecto Completado](#proyecto-completado)
 - 📎 Archivos relacionados
   - [CARTURAS-DE-PROCESOS.md](CARTURAS-DE-PROCESOS.md)
-  - [LISTADO-ENDPOINTS.md](LISTADO-ENDPOINTS.md)
+  - [BACKEND-ENDPOINTS.md](BACKEND-ENDPOINTS.md)
+  - [FRONTEND-ENDPOINTS.md](FRONTEND-ENDPOINTS.md)
 
 ---
 
